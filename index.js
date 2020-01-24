@@ -39,8 +39,28 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.stomach = [];
+  this.name = name,
+    this.age = age
+}
+Person.prototype.eat = function (stomach, edible) {
+  if (stomach.length < 11) {
+    stomach.push(edible);
+    return stomach;
 
+  }
+}
+Person.prototype.poop = function (stomach) {
+  if (stomach.length > 0) {
+    stomach.pop();
+    return stomach;
+  } else {
+    return stomach;
+  }
+}
+Person.prototype.toString = function () {
+  return this.name + this.age;
 }
 
 /*
@@ -57,10 +77,25 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.tank = 0;
+  this.odometer = 0;
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
 }
-
+Car.prototype.fill = function (gallons) {
+  return this.tank += gallons;
+}
+Car.prototype.drive = function (distance) {
+  if (distance <= (this.tank * this.milesPerGallon)) {
+    return this.odometer += distance;
+  } else {
+    let distanceLeft = distance - (this.tank * this.milesPerGallon);
+    this.odometer += (this.tank * this.milesPerGallon);
+    console.log(`You ran out of gas at ${this.odometer} miles!`);
+  }
+  this.tank = this.tank - (distance / this.milesPerGallon);
+}
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -68,18 +103,25 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
 
+const Baby = function (name, age) {
+  Person.call(this, name, age, favoriteToy);
+  this.favoriteToy = favoriteToy;
+}
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function () {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
-
+ 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. By itself, this points to everything in the window
+  2. can be used to point to something in its given object
+  3. can be used to copy something from a parent object to a child
+  4. can be used to create a new 'feature' of an object
 */
 
 
